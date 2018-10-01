@@ -13,6 +13,25 @@ public class Estante implements VOEstante {
 	private Double peso;
 	
 	private String unidadPeso;
+	
+	public Estante(){
+		this.idSucursal = (long) 0;
+		this.tipoProducto = "";
+		this.volumen = 0.0;
+		this.unidadVolumen = "cm3";
+		this.volumen = 0.0;
+		this.unidadPeso = "gr";
+	}
+	
+	public Estante(Long id, String tipoProducto, Double volumen, String unidadV, Double peso, String unidadP)
+	{
+		this.idSucursal = id;
+		this.tipoProducto = tipoProducto;
+		this.volumen = volumen;
+		this.peso = peso;
+		this.unidadPeso = unidadP;
+		this.unidadVolumen = unidadV;
+	}
 
 	public Long getIdSucursal() {
 		return idSucursal;

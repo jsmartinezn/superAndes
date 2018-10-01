@@ -1,6 +1,6 @@
 package superAndes.negocio;
 
-public class Compra {
+public class Compra implements VOCompra{
 	
 	private Long idCliente;
 	
@@ -13,6 +13,24 @@ public class Compra {
 	private Boolean promocion;
 	
 	private Long id;
+	
+	public Compra(){
+		this.id = (long)0;
+		this.idCliente=(long)0;
+		this.idProducto=(long)0;
+		this.idSucursal=(long)0;
+		this.cantidad = 0;
+		this.promocion = false;
+	}
+	
+	public Compra(Long id, Long idC, Long idP, Long idS, Integer cantidad, Boolean promocion){
+		this.id = id;
+		this.idCliente = idC;
+		this.idSucursal = idS;
+		this.idProducto = idP;
+		this.cantidad = cantidad;
+		this.promocion = promocion;
+	}
 
 	public Long getIdCliente() {
 		return idCliente;

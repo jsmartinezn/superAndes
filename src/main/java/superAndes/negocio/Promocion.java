@@ -2,7 +2,7 @@ package superAndes.negocio;
 
 import java.util.Date;
 
-public class Promocion {
+public class Promocion implements VOPromocion{
 	
 	private Long idSucursal;
 	
@@ -13,6 +13,22 @@ public class Promocion {
 	private Date fechaFin;
 	
 	private String condicion;
+	
+	public Promocion(){
+		this.idProducto = (long) 0;
+		this.idSucursal = (long) 0;
+		this.fechaFin = new Date();
+		this.fechaInicio = new Date();
+		this.condicion = "";
+	}
+	
+	public Promocion(Long idS,Long idP,Date inicio,Date fin,String condicion){
+		this.idProducto = idP;
+		this.idSucursal = idS;
+		this.fechaInicio = inicio;
+		this.fechaFin = fin;
+		this.condicion = condicion;
+	}
 
 	public Long getIdSucursal() {
 		return idSucursal;

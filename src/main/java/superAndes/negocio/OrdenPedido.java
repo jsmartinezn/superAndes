@@ -2,13 +2,13 @@ package superAndes.negocio;
 
 import java.util.Date;
 
-public class OrdenPedido {
+public class OrdenPedido implements VOOrdenPedido{
 	
 	public final static String E = "ENTREGADA";
 	
 	public final static String P = "PENDIENTE";
 	
-	public Long id;
+	private Long id;
 		
 	private Long idProveedor;
 	
@@ -22,7 +22,28 @@ public class OrdenPedido {
 
 	private Double calificacion;
 	
-	private String Estado;
+	private String estado;
+	
+	public OrdenPedido(){
+		this.id = (long) 0;
+		this.idProveedor = (long) 0;
+		this.idSucursal = (long) 0;
+		this.idProductoCantidad = (long) 0;
+		this.fechaEntrega = new Date();
+		this.fechaEspEntrega = new Date();
+		this.calificacion = 0.0;
+		this.estado = P;
+	}
+	
+	public OrdenPedido(Long id,Long idProveedor,Long idS,Long idPoducto,Date fechaEsperada,Date fechaReal,String estado){
+		this.id = id;
+		this.idProveedor = idProveedor;
+		this.idSucursal = idS;
+		this.idProductoCantidad = idPoducto;
+		this.fechaEntrega = fechaReal;
+		this.fechaEspEntrega = fechaEsperada;
+		this.estado = estado;
+	}	
 	
 	public Long getId() {
 		return id;
@@ -82,10 +103,10 @@ public class OrdenPedido {
 	}
 
 	public String getEstado() {
-		return Estado;
+		return estado;
 	}
 
 	public void setEstado(String estado) {
-		Estado = estado;
+		this.estado = estado;
 	}
 }

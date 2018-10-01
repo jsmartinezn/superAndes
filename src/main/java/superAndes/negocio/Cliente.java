@@ -1,12 +1,25 @@
 package superAndes.negocio;
 
-public class Cliente {
+public class Cliente{
 	
 	private Long id;
 	
 	private String nombre;
 	
 	private String correo;
+	
+	public Cliente(){
+		this.id = (long)0;
+		this.nombre = "";
+		this.correo = "";
+	}
+	
+	public Cliente(Long id, String nombre, String correo)
+	{
+		this.id = id;
+		this.nombre = nombre;
+		this.correo = correo;
+	}
 
 	public Long getId() {
 		return id;

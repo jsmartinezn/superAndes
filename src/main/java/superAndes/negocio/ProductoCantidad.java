@@ -1,6 +1,6 @@
 package superAndes.negocio;
 
-public class ProductoCantidad {
+public class ProductoCantidad implements VOProductoCantidad{
 	
 	private Long idProducto;
 	
@@ -13,6 +13,24 @@ public class ProductoCantidad {
 	private Integer cantidadRecibida;
 	
 	private Double calidadRecibida;
+	
+	public ProductoCantidad(){
+		this.idOrden = (long)0;
+		this.idProducto = (long)0;
+		this.volumen = 0.0;
+		this.unidadDeMedida = "cm3";
+		this.cantidadRecibida = 0;
+		this.calidadRecibida = 0.0;
+	}
+	
+	public ProductoCantidad(Long idP,Long idO,Double volumen,String undMedida,Integer cantidad,Double calidad){
+		this.idOrden = idP;
+		this.idProducto = idO;
+		this.volumen = volumen;
+		this.unidadDeMedida = undMedida;
+		this.cantidadRecibida = cantidad;
+		this.calidadRecibida = calidad;
+	}
 
 	public Long getIdProducto() {
 		return idProducto;
