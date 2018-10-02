@@ -1,5 +1,7 @@
 package superAndes.negocio;
 
+import java.util.Date;
+
 public interface VOCompra {
 	
 	public Long getIdCliente();
@@ -13,4 +15,8 @@ public interface VOCompra {
 	public Boolean getPromocion();
 	
 	public Long getId();
+	
+	public Double getPrecio();
+	
+	public Date getFecha();
 }
