@@ -1,16 +1,26 @@
 package superAndes.persistencia;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.jdo.JDODataStoreException;
 import javax.jdo.JDOHelper;
+import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
+import javax.jdo.Transaction;
 
 import org.apache.log4j.Logger;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
+import oracle.net.aso.p;
+import oracle.net.aso.v;
+import superAndes.negocio.Bodega;
+import superAndes.negocio.Compra;
 
 public class PersistenciaSuperAndes {
 
@@ -166,4 +176,100 @@ public class PersistenciaSuperAndes {
         return resp;
     }
 
+	private String darDetalleException(Exception e) 
+	{
+		String resp = "";
+		if (e.getClass().getName().equals("javax.jdo.JDODataStoreException"))
+		{
+			JDODataStoreException je = (javax.jdo.JDODataStoreException) e;
+			return je.getNestedExceptions() [0].getMessage();
+		}
+		return resp;
+	}
+	
+	public Bodega adicionarBodega(String tipoProducto,Double volumen,String unidadV,Double peso,String unidadP){
+		PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+        try
+        {
+            tx.begin();
+            long idBodega = nextval ();
+            long tuplasInsertadas = sqlBodega.adicionarBodega(pm, idBodega,tipoProducto,volumen,0.0,unidadV,peso,0.0,unidadP);
+            tx.commit();
+            
+            log.trace ("Inserción de la bodega: " + idBodega + ": " + tuplasInsertadas + " tuplas insertadas");
+            
+            return new Bodega (idBodega, tipoProducto,volumen,0.0,unidadV,peso,0.0,unidadP);
+        }
+        catch (Exception e)
+        {
+        	e.printStackTrace();
+        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+        	return null;
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+	}
+	
+	public List<String> indiceDeOcupacionVolumen(Long idSucursal){
+		
+		List<Bodega> nueva = sqlBodega.darBodega(pmf.getPersistenceManager(), idSucursal);
+		ArrayList<String> resp = new ArrayList<>();
+		for(Bodega a : nueva)
+		{
+			resp.add("El indice del producto " + a.getTipoProducto() + " es: " + a.getVolumenActual()/a.getVolumen());
+		}
+		return resp;
+	}
+	
+	public List<String> indiceDeOcupacionPeso(Long idSucursal,String tipoProducto){
+		List<Bodega> nueva = sqlBodega.darBodega(pmf.getPersistenceManager(), idSucursal);
+		ArrayList<String> resp = new ArrayList<>();
+		for(Bodega a : nueva)
+		{
+			resp.add("El indice del producto " + a.getTipoProducto() + " es: " + a.getPesoActual()/a.getPeso());
+		}
+		return resp;
+	}
+	
+	public Compra adicionarCompra(Long idC, Long idP, Long idS, Integer cantidad, Boolean promocion,Double precio,Date fecha){
+		PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+        try
+        {
+            tx.begin();
+            long idCompra = nextval ();
+            long tuplasInsertadas = sqlCompra.adicionarCompra(pm, idCompra, idC, idP, idS, cantidad, promocion, precio, fecha);
+            tx.commit();
+            
+            log.trace ("Inserción de la omprabodega: " + idCompra + ": " + tuplasInsertadas + " tuplas insertadas");
+            
+            return new Compra(idCompra, idC, idP, idS, cantidad, promocion, precio, fecha);
+        }
+        catch (Exception e)
+        {
+        	e.printStackTrace();
+        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+        	return null;
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+	}
+	
+	public List<Compra> darComprasFechas(Date fechaInicio,Date fechaFin)
+	{
+		
+	}
 }

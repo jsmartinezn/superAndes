@@ -1,8 +1,12 @@
 package superAndes.persistencia;
 
 
+import java.util.List;
+
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+
+import superAndes.negocio.Bodega;
 
 
 class SQLBodega {
@@ -45,62 +49,20 @@ class SQLBodega {
 	 * @param horario - EL horario en que se realizó la visita (DIURNO, NOCTURNO, TODOS)
 	 * @return EL número de tuplas insertadas
 	 */
-	public long adicionarBodega (PersistenceManager pm,Long id,String tipoProducto,Double volumen,String unidadV,Double peso,String unidadP) 
+	public long adicionarBodega (PersistenceManager pm,Long id,String tipoProducto,Double volumen,Double volumen2,String unidadV,Double peso,Double peso2,String unidadP) 
 	{
-        Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaBodega () + "(idSucursal, tipoProducto, volumen, unidadDeVolumen, peso,unidadPeso) values (?, ?, ?, ?, ?, ?)");
-        q.setParameters(id,tipoProducto,volumen,unidadV,peso,unidadP);
+        Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaBodega () + "(idSucursal, tipoProducto, volumen, volumenactual, unidadDeVolumen, peso, pesoactual, unidadPeso) values (?, ?, ?, ?, ?, ?, ?, ?)");
+        q.setParameters(id,tipoProducto,volumen,volumen2, unidadV,peso, peso2,unidadP);
         return (long) q.executeUnique();
 	}
 
-	/**
-	 * Crea y ejecuta la sentencia SQL para eliminar TODAS LAS VISITAS de la base de datos de Parranderos
-	 * @param pm - El manejador de persistencia
-	 * @return EL número de tuplas eliminadas
-	 */
-	public long eliminarTodas (PersistenceManager pm) 
-	{
-        Query q = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaBodega ());
-        return (long) q.executeUnique();
-	}
-
-	/**
-	 * Crea y ejecuta la sentencia SQL para eliminar UN VISITAN de la base de datos de Parranderos, por sus identificadores
-	 * @param pm - El manejador de persistencia
-	 * @param idBebedor - El identificador del bebedor
-	 * @param idBar - El identificador del bar
-	 * @return EL número de tuplas eliminadas
-	 */
-	public long eliminarBodega (PersistenceManager pm, Long idSucursal,String tipoProducto) 
-	{
-        Query q = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaBodega () + " WHERE idsucursal = ? AND tipoProducto = ?");
-        q.setParameters(idSucursal, tipoProducto);
-        return (long) q.executeUnique();
-	}
-
-	/**
-	 * Crea y ejecuta la sentencia SQL para ELIMINAR TODAS LAS VISITAS DE UN BEBEDOR de la base de datos de Parranderos, por su identificador
-	 * @param pm - El manejador de persistencia
-	 * @param idBebedor - El identificador del bebedor
-	 * @return EL número de tuplas eliminadas
-	 */
-	public long eliminarTodasLasBodegasDeSucursal (PersistenceManager pm, long idSucursal) 
-	{
-        Query q = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaBodega () + " WHERE idsucursal = ?");
-        q.setParameters(idSucursal);
-        return (long) q.executeUnique();
-	}
 	
-	public long darBodegas(PersistenceManager pm)
-	{
-		Query q = pm.newQuery(SQL, "SELECT FROM" + pp.darTablaBodega() );
-		return (long) q.executeUnique();
-	}
-	
-	public long darBodegasSucursal(PersistenceManager pm,Long idSucursal)
+	public List<Bodega> darBodega(PersistenceManager pm,Long idSucursal)
 	{
 		Query q = pm.newQuery(SQL, "SELECT FROM" + pp.darTablaBodega() + "WHERE idsucursal = ?");
+		q.setResultClass(Bodega.class);
 		q.setParameters(idSucursal);
-		return (long) q.executeUnique();
+		return (List<Bodega>) q.executeList();
 	}
 
 }

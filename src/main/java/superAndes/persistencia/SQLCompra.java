@@ -65,13 +65,13 @@ class SQLCompra {
 
 	public long darBodegas(PersistenceManager pm)
 	{
-		Query q = pm.newQuery(SQL, "SELECT FROM" + pp.darTablaCompra() );
+		Query q = pm.newQuery(SQL, "SELECT * FROM" + pp.darTablaCompra() );
 		return (long) q.executeUnique();
 	}
 	
 	public long darBodegasSucursal(PersistenceManager pm,Date fechaI,Date fechaF,Long idCliente)
 	{
-		Query q = pm.newQuery(SQL, "SELECT FROM" + pp.darTablaCompra() + "WHERE fecha > ? AND fecha < ? AND idcliente = ?");
+		Query q = pm.newQuery(SQL, "SELECT idSucursal, cantidad, precio FROM" + pp.darTablaCompra() + "WHERE fecha > ? AND fecha < ? AND idcliente = ?");
 		q.setParameters(fechaI,fechaF,idCliente);
 		return (long) q.executeUnique();
 	}
