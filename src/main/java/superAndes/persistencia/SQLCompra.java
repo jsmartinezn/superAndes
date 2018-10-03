@@ -1,9 +1,11 @@
 package superAndes.persistencia;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+import superAndes.negocio.Compra;
 
 class SQLCompra {
 	
@@ -52,27 +54,19 @@ class SQLCompra {
         return (long) q.executeUnique();
 	}
 
-	/**
-	 * Crea y ejecuta la sentencia SQL para eliminar TODAS LAS VISITAS de la base de datos de Parranderos
-	 * @param pm - El manejador de persistencia
-	 * @return EL número de tuplas eliminadas
-	 */
-	public long eliminarTodas (PersistenceManager pm) 
+	public List<Compra> darDineroTiempo(PersistenceManager pm,Date fechaI,Date fechaF)
 	{
-        Query q = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaCompra());
-        return (long) q.executeUnique();
-	}
-
-	public long darBodegas(PersistenceManager pm)
-	{
-		Query q = pm.newQuery(SQL, "SELECT * FROM" + pp.darTablaCompra() );
-		return (long) q.executeUnique();
+		Query q = pm.newQuery(SQL, "SELECT idSucursal, cantidad, precio FROM" + pp.darTablaCompra() + "WHERE fecha > ? AND fecha < ? ");
+		q.setResultClass(Compra.class);
+		q.setParameters(fechaI,fechaF);
+		return  q.executeList();
 	}
 	
-	public long darBodegasSucursal(PersistenceManager pm,Date fechaI,Date fechaF,Long idCliente)
+	public List<Compra> darDineroPorCliente(PersistenceManager pm,Date fechaI,Date fechaF,Long idCliente)
 	{
-		Query q = pm.newQuery(SQL, "SELECT idSucursal, cantidad, precio FROM" + pp.darTablaCompra() + "WHERE fecha > ? AND fecha < ? AND idcliente = ?");
+		Query q = pm.newQuery(SQL, "SELECT * FROM" + pp.darTablaCompra() + "WHERE fecha > ? AND fecha < ? AND idCliente = ?");
+		q.setResultClass(Compra.class);
 		q.setParameters(fechaI,fechaF,idCliente);
-		return (long) q.executeUnique();
+		return  q.executeList();
 	}
 }

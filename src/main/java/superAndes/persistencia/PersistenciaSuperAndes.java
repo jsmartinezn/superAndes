@@ -21,6 +21,10 @@ import oracle.net.aso.p;
 import oracle.net.aso.v;
 import superAndes.negocio.Bodega;
 import superAndes.negocio.Compra;
+import superAndes.negocio.Empresa;
+import superAndes.negocio.Estante;
+import superAndes.negocio.OrdenPedido;
+import superAndes.negocio.PersonaNatural;
 
 public class PersistenciaSuperAndes {
 
@@ -117,6 +121,13 @@ public class PersistenciaSuperAndes {
 		return instance;
 	}
 
+	
+	public void cerrarUnidadPersistencia ()
+	{
+		pmf.close ();
+		instance = null;
+	}
+	
 	public String darSeqParranderos() {
 		return tablas.get(0);
 	}
@@ -217,7 +228,7 @@ public class PersistenciaSuperAndes {
         }
 	}
 	
-	public List<String> indiceDeOcupacionVolumen(Long idSucursal){
+	public List<String> indiceDeOcupacionVolumenBodega(Long idSucursal){
 		
 		List<Bodega> nueva = sqlBodega.darBodega(pmf.getPersistenceManager(), idSucursal);
 		ArrayList<String> resp = new ArrayList<>();
@@ -228,7 +239,7 @@ public class PersistenciaSuperAndes {
 		return resp;
 	}
 	
-	public List<String> indiceDeOcupacionPeso(Long idSucursal,String tipoProducto){
+	public List<String> indiceDeOcupacionPesoBodega(Long idSucursal){
 		List<Bodega> nueva = sqlBodega.darBodega(pmf.getPersistenceManager(), idSucursal);
 		ArrayList<String> resp = new ArrayList<>();
 		for(Bodega a : nueva)
@@ -248,7 +259,7 @@ public class PersistenciaSuperAndes {
             long tuplasInsertadas = sqlCompra.adicionarCompra(pm, idCompra, idC, idP, idS, cantidad, promocion, precio, fecha);
             tx.commit();
             
-            log.trace ("Inserción de la omprabodega: " + idCompra + ": " + tuplasInsertadas + " tuplas insertadas");
+            log.trace ("Inserción de la compra: " + idCompra + ": " + tuplasInsertadas + " tuplas insertadas");
             
             return new Compra(idCompra, idC, idP, idS, cantidad, promocion, precio, fecha);
         }
@@ -270,6 +281,187 @@ public class PersistenciaSuperAndes {
 	
 	public List<Compra> darComprasFechas(Date fechaInicio,Date fechaFin)
 	{
-		
+		return sqlCompra.darDineroTiempo(pmf.getPersistenceManager(), fechaInicio, fechaFin);
 	}
+	
+	public List<Compra> darComprasPorUsuario(Date fechaInicio,Date fechaFin,Long idCliente)
+	{
+		return sqlCompra.darDineroPorCliente(pmf.getPersistenceManager(), fechaInicio, fechaFin,idCliente);
+	}
+	
+	public Empresa adicionarEmpresa(String nombre, String correo, Long nit,String direccion){
+		PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+        try
+        {
+            tx.begin();
+            long idEmpresa = nextval ();
+            long tuplasInsertadas = sqlEmpresa.adicionar(pm, idEmpresa, nombre, correo, nit, direccion);
+            tx.commit();
+            
+            log.trace ("Inserción de la empresa: " + idEmpresa + ": " + tuplasInsertadas + " tuplas insertadas");
+            
+            return new Empresa(idEmpresa, nombre, correo, nit, direccion);
+        }
+        catch (Exception e)
+        {
+        	e.printStackTrace();
+        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+        	return null;
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+	}
+	
+	public Estante adicionarEstante(String tipoProducto,Double volumen,Double volumen2,String unidadV,Double peso,Double peso2,String unidadP){
+		PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+        try
+        {
+            tx.begin();
+            long idEstante = nextval ();
+            long tuplasInsertadas = sqlEstante.adicionarEstante(pm, idEstante, tipoProducto, volumen, volumen2, unidadV, peso, peso2, unidadP);
+            tx.commit();
+            
+            log.trace ("Inserción de la empresa: " + idEstante + ": " + tuplasInsertadas + " tuplas insertadas");
+            
+            return new Estante(idEstante, tipoProducto, volumen, volumen2, unidadV, peso, peso2, unidadP);
+        }
+        catch (Exception e)
+        {
+        	e.printStackTrace();
+        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+        	return null;
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+	}
+	
+	public List<String> indiceDeOcupacionVolumenEstante(Long idSucursal){
+		
+		List<Estante> nueva = sqlEstante.darEstante(pmf.getPersistenceManager(), idSucursal);
+		ArrayList<String> resp = new ArrayList<>();
+		for(Estante a : nueva)
+		{
+			resp.add("El indice del producto " + a.getTipoProducto() + " es: " + a.getVolumenActual()/a.getVolumen());
+		}
+		return resp;
+	}
+	
+	public List<String> indiceDeOcupacionPesoEstante(Long idSucursal){
+		List<Estante> nueva = sqlEstante.darEstante(pmf.getPersistenceManager(), idSucursal);
+		ArrayList<String> resp = new ArrayList<>();
+		for(Estante a : nueva)
+		{
+			resp.add("El indice del producto " + a.getTipoProducto() + " es: " + a.getPesoActual()/a.getPeso());
+		}
+		return resp;
+	}
+	
+	public OrdenPedido adicionarOrdenPedido(Long idProveedor,Long idSucursal,Long idProducto,Date fechaEsperada, String estado){
+		PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+        try
+        {
+            tx.begin();
+            long idOrden = nextval ();
+            long tuplasInsertadas = sqlOrden.adicionarOrden(pm, idOrden, idProveedor, idSucursal, idProducto, fechaEsperada, estado);
+            tx.commit();
+            
+            log.trace ("Inserción de la empresa: " + idOrden + ": " + tuplasInsertadas + " tuplas insertadas");
+            
+            return new OrdenPedido(idOrden, idProveedor, idSucursal, idProducto, fechaEsperada, null, estado);
+        }
+        catch (Exception e)
+        {
+        	e.printStackTrace();
+        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+        	return null;
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+	}
+	
+	public long realizarEntrega(Long id,Date fecha,Double calificacion,String estado)
+	{		
+		PersistenceManager pm = pmf.getPersistenceManager();
+	    Transaction tx=pm.currentTransaction();
+	    try
+	    {
+	        tx.begin();
+	        long resp = sqlOrden.entregarOrden(pmf.getPersistenceManager(), id, fecha, calificacion, estado);
+	        tx.commit();
+	        
+	        log.trace ("Se actualizo la orden: " + id + " a entregada");
+	        
+	        return resp;
+	    }
+	    catch (Exception e)
+	    {
+	    	e.printStackTrace();
+	    	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+	    	return -1;
+	    }
+	    finally
+	    {
+	        if (tx.isActive())
+	        {
+	            tx.rollback();
+	        }
+	        pm.close();
+	    }
+	}
+	
+	public List<OrdenPedido> darOrdenes(){
+		return sqlOrden.darOrden(pmf.getPersistenceManager());
+	}
+	
+	public PersonaNatural adicionarPersona(String nombre, String correo, Long cedula){
+		PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+        try
+        {
+            tx.begin();
+            long idPersona = nextval ();
+            long tuplasInsertadas = sqlPersona.adicionar(pm, idPersona, nombre, correo, cedula);
+            tx.commit();
+            
+            log.trace ("Inserción de la empresa: " + idPersona + ": " + tuplasInsertadas + " tuplas insertadas");
+            
+            return new PersonaNatural(idPersona, nombre, correo, cedula);
+        }
+        catch (Exception e)
+        {
+        	e.printStackTrace();
+        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+        	return null;
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+	}
+	
 }

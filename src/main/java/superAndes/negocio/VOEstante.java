@@ -13,4 +13,8 @@ public interface VOEstante {
 	public Double getPeso();
 	
 	public String getUnidadPeso();
+	
+	public Double getPesoActual();
+	
+	public Double getVolumenActual();
 }

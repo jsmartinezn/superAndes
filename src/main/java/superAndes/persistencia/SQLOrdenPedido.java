@@ -1,9 +1,12 @@
 package superAndes.persistencia;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+
+import superAndes.negocio.OrdenPedido;
 
 class SQLOrdenPedido {
 
@@ -43,11 +46,11 @@ class SQLOrdenPedido {
 		return (long)q.executeUnique();
 	}
 	
-	public long darOrden(PersistenceManager pm, Long id)
+	public List<OrdenPedido> darOrden(PersistenceManager pm)
 	{
-		Query q = pm.newQuery("SELECT * FROM " + pp.darTablaOrdenPedido() + " WHERE id = ?");
-		q.setParameters(id);
-		return (long) q.executeUnique();
+		Query q = pm.newQuery("SELECT * FROM " + pp.darTablaOrdenPedido() );
+		q.setResultClass(OrdenPedido.class);
+		return q.executeList();
 	}
 	
 	public long entregarOrden(PersistenceManager pm,Long id,Date fecha,Double calificacion,String estado)
