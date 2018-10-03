@@ -75,6 +75,22 @@ public class PersistenciaSuperAndes {
 	
 	private SQLPersonaNatural sqlPersona;
 	
+	private SQLProducto sqlProducto;
+	
+	private SQLPromocion sqlPromocion;
+	
+	private SQLProductoProvedor sqlProductoProvedor;
+	
+	private SQLCompraPromocion sqlCompraPromocion;
+	
+	private SQLLlegadaProducto sqlLLegadaProducto;
+	
+	private SQLProvedor sqlProvedor;
+	
+	private SQLSucursal sqlSucursal;
+	
+	private SQLSucursalProducto sqlSucursalProducto;
+	
 	private PersistenciaSuperAndes()
 	{
 		pmf = JDOHelper.getPersistenceManagerFactory("Parranderos");		
