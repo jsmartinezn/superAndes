@@ -18,6 +18,10 @@ public class Estante implements VOEstante {
 	
 	private String unidadPeso;
 	
+	private Integer cantidad;
+	
+	private Integer nivelDeReOrden;
+	
 	public Estante(){
 		this.idSucursal = (long) 0;
 		this.tipoProducto = "";
@@ -27,9 +31,11 @@ public class Estante implements VOEstante {
 		this.unidadPeso = "gr";
 		this.setPesoActual(0.0);
 		this.setVolumenActual(0.0);
+		this.cantidad = 0;
+		this.nivelDeReOrden = 0;
 	}
 	
-	public Estante(Long id, String tipoProducto, Double volumen,Double volumen2,String unidadV, Double peso,Double peso2,String unidadP)
+	public Estante(Long id, String tipoProducto, Double volumen,Double volumen2,String unidadV, Double peso,Double peso2,String unidadP,Integer cantidad,Integer nivel)
 	{
 		this.idSucursal = id;
 		this.tipoProducto = tipoProducto;
@@ -39,6 +45,8 @@ public class Estante implements VOEstante {
 		this.unidadVolumen = unidadV;
 		this.setPesoActual(peso2);
 		this.setVolumenActual(volumen2);
+		this.cantidad = cantidad;
+		this.nivelDeReOrden = nivel;
 	}
 
 	public Long getIdSucursal() {
@@ -103,5 +111,21 @@ public class Estante implements VOEstante {
 
 	public void setPesoActual(Double pesoActual) {
 		this.pesoActual = pesoActual;
+	}
+
+	public Integer getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(Integer cantidad) {
+		this.cantidad = cantidad;
+	}
+
+	public Integer getNivelDeReOrden() {
+		return nivelDeReOrden;
+	}
+
+	public void setNivelDeReOrden(Integer nivelDeReOrden) {
+		this.nivelDeReOrden = nivelDeReOrden;
 	}
 }

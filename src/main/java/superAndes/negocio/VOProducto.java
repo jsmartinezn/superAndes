@@ -19,5 +19,7 @@ public interface VOProducto {
 	public String getCodigoDeBarras();
 	
 	public String getCategoria();
+	
+	public String getTipo();
 
 }

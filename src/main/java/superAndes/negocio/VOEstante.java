@@ -17,4 +17,8 @@ public interface VOEstante {
 	public Double getPesoActual();
 	
 	public Double getVolumenActual();
+	
+	public Integer getCantidad();
+	
+	public Integer getNivelDeReOrden();
 }

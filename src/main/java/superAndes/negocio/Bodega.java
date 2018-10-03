@@ -18,6 +18,8 @@ public class Bodega implements VOBodega {
 	
 	private String unidadPeso;
 	
+	private Integer cantidad;
+	
 	public Bodega(){
 		this.idSucursal = (long) 0;
 		this.tipoProducto = "";
@@ -27,9 +29,10 @@ public class Bodega implements VOBodega {
 		this.unidadPeso = "gr";
 		this.pesoActual = 0.0;
 		this.volumenActual = 0.0;
+		this.cantidad = 0;
 	}
 	
-	public Bodega(Long id, String tipoProducto, Double volumen,Double volumen2,String unidadV, Double peso,Double peso2,String unidadP)
+	public Bodega(Long id, String tipoProducto, Double volumen,Double volumen2,String unidadV, Double peso,Double peso2,String unidadP,Integer cantidad)
 	{
 		this.idSucursal = id;
 		this.tipoProducto = tipoProducto;
@@ -39,6 +42,7 @@ public class Bodega implements VOBodega {
 		this.unidadVolumen = unidadV;
 		this.pesoActual = peso2;
 		this.volumenActual = volumen2;
+		this.cantidad = cantidad;
 	}
 
 	public Long getIdSucursal() {
@@ -103,5 +107,13 @@ public class Bodega implements VOBodega {
 
 	public void setPesoActual(Double pesoActual) {
 		this.pesoActual = pesoActual;
+	}
+
+	public Integer getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(Integer cantidad) {
+		this.cantidad = cantidad;
 	}
 }

@@ -93,8 +93,8 @@ public class SuperAndes {
 		return pp.adicionarEmpresa(nombre, correo, nit, direccion);
 	}
 	
-	public Estante adicionarEstante(String tipoProducto,Double volumen,Double volumen2,String unidadV,Double peso,Double peso2,String unidadP){
-		return pp.adicionarEstante(tipoProducto, volumen, volumen2, unidadV, peso, peso2, unidadP);
+	public Estante adicionarEstante(String tipoProducto,Double volumen,Double volumen2,String unidadV,Double peso,Double peso2,String unidadP,Integer nivel){
+		return pp.adicionarEstante(tipoProducto, volumen, volumen2, unidadV, peso, peso2, unidadP,nivel);
 	}
 	
 	public List<String> indiceDeOcupacionPesoEstante(Long idSucursal){
@@ -105,8 +105,8 @@ public class SuperAndes {
 		return pp.indiceDeOcupacionVolumenEstante(idSucursal);
 	}
 	
-	public OrdenPedido adicionarOrdenPedido(Long idProveedor,Long idSucursal,Long idProducto,Date fechaEsperada, String estado){
-		return pp.adicionarOrdenPedido(idProveedor, idSucursal, idProducto, fechaEsperada, estado);
+	public OrdenPedido adicionarOrdenPedido(Long idProveedor,Long idSucursal,Date fechaEsperada, String estado){
+		return pp.adicionarOrdenPedido(idProveedor, idSucursal, fechaEsperada, estado);
 	}
 
 	public long realizarEntrega(Long id,Date fecha,Double calificacion,String estado){
