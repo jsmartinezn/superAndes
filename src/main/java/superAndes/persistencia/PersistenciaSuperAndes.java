@@ -96,6 +96,7 @@ public class PersistenciaSuperAndes {
 		tablas.add ("SUCURSAL");
 		tablas.add ("SUCURSAL_PROVEDOR");
 		tablas.add ("LLEGADA_PRODUCTO");
+		tablas.add ("COMPRA_PROMOCION");
 		
 		
 	}
@@ -192,6 +193,10 @@ public class PersistenciaSuperAndes {
 	public String darTablaLlegadaProducto()
 	{
 		return tablas.get(12);
+	}
+	public String darTablaCompraPromocion()
+	{
+		return tablas.get(13);
 	}
 	
 	public void crearClasesSql()
