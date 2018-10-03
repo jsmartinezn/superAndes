@@ -1,38 +1,26 @@
 package superAndes.negocio;
 
 public class Proveedor implements VOProveedor{
-	
-	private Long id;
-	
-	private String nit;
+		
+	private Long nit;
 	
 	private String nombre;
 	
 	public Proveedor(){
-		this.id = (long) 0;
-		this.nit = "";
+		this.nit = (long) 0;
 		this.nombre = "";
 	}
 	
-	public Proveedor(Long id,String nit,String nombre){
-		this.id = id;
+	public Proveedor(Long  nit,String nombre){
 		this.nit = nit;
 		this.nombre = nombre;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNit() {
+	public Long getNit() {
 		return nit;
 	}
 
-	public void setNit(String nit) {
+	public void setNit(Long nit) {
 		this.nit = nit;
 	}
 

@@ -89,6 +89,14 @@ public class PersistenciaSuperAndes {
 		tablas.add ("ESTANTE");
 		tablas.add ("ORDENPEDIDO");
 		tablas.add ("PERSONANATURAL");
+		tablas.add ("PRODUCTO");
+		tablas.add ("PRODUCTO_PROVEDOR");
+		tablas.add ("PROMOCION");
+		tablas.add ("PROVEDOR");
+		tablas.add ("SUCURSAL");
+		tablas.add ("SUCURSAL_PRODUCTO");
+		
+		
 	}
 	
 	private PersistenciaSuperAndes(JsonObject config)
@@ -155,6 +163,30 @@ public class PersistenciaSuperAndes {
 	public String darTablaOrdenPedido()
 	{
 		return tablas.get(5);
+	}
+	public String darTablaProducto()
+	{
+		return tablas.get(6);
+	}
+	public String darTablaProductoProvedor()
+	{
+		return tablas.get(7);
+	}
+	public String darTablaPromocion()
+	{
+		return tablas.get(8);
+	}
+	public String darTablaProvedor()
+	{
+		return tablas.get(9);
+	}
+	public String darTablaSucursal()
+	{
+		return tablas.get(10);
+	}
+	public String darTablaSucursalProducto()
+	{
+		return tablas.get(11);
 	}
 	
 	public void crearClasesSql()
