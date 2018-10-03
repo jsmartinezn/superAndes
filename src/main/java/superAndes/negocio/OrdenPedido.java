@@ -13,8 +13,6 @@ public class OrdenPedido implements VOOrdenPedido{
 	private Long idProveedor;
 	
 	private Long idSucursal;
-
-	private Long idProductoCantidad;
 	
 	private Date fechaEspEntrega;
 	
@@ -28,18 +26,16 @@ public class OrdenPedido implements VOOrdenPedido{
 		this.id = (long) 0;
 		this.idProveedor = (long) 0;
 		this.idSucursal = (long) 0;
-		this.idProductoCantidad = (long) 0;
 		this.fechaEntrega = new Date();
 		this.fechaEspEntrega = new Date();
 		this.calificacion = 0.0;
 		this.estado = P;
 	}
 	
-	public OrdenPedido(Long id,Long idProveedor,Long idS,Long idPoducto,Date fechaEsperada,Date fechaReal,String estado){
+	public OrdenPedido(Long id,Long idProveedor,Long idS,Date fechaEsperada,Date fechaReal,String estado){
 		this.id = id;
 		this.idProveedor = idProveedor;
 		this.idSucursal = idS;
-		this.idProductoCantidad = idPoducto;
 		this.fechaEntrega = fechaReal;
 		this.fechaEspEntrega = fechaEsperada;
 		this.estado = estado;
@@ -68,14 +64,6 @@ public class OrdenPedido implements VOOrdenPedido{
 
 	public void setIdSucursal(Long idSucursal) {
 		this.idSucursal = idSucursal;
-	}
-
-	public Long getIdProductoCantidad() {
-		return idProductoCantidad;
-	}
-
-	public void setIdProductoCantidad(Long idProductoCantidad) {
-		this.idProductoCantidad = idProductoCantidad;
 	}
 
 	public Date getFechaEspEntrega() {

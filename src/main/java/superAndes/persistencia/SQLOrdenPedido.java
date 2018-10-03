@@ -39,10 +39,10 @@ class SQLOrdenPedido {
 		this.pp = pp;
 	}
 	
-	public long adicionarOrden(PersistenceManager pm,Long id,Long idProveedor,Long idSucursal,Long idProducto,Date fechaEsperada, String estado)
+	public long adicionarOrden(PersistenceManager pm,Long id,Long idProveedor,Long idSucursal,Date fechaEsperada, String estado)
 	{
-		Query q = pm.newQuery("INSERT INTO " + pp.darTablaOrdenPedido() +  "(id, idProveedor, idSucursal, idProducto, fechaEsperada, estado) values (?, ?, ?, ?, ?, ?)");
-		q.setParameters(id,idProveedor,idSucursal,idProducto,fechaEsperada, estado);
+		Query q = pm.newQuery("INSERT INTO " + pp.darTablaOrdenPedido() +  "(id, idProveedor, idSucursal, fechaEsperada, estado) values (?, ?, ?, ?, ?, ?)");
+		q.setParameters(id,idProveedor,idSucursal,fechaEsperada, estado);
 		return (long)q.executeUnique();
 	}
 	

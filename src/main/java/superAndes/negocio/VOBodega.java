@@ -17,4 +17,6 @@ public interface VOBodega {
 	public Double getPesoActual();
 	
 	public Double getVolumenActual();
+	
+	public Integer getCantidad();
 }

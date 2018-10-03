@@ -10,8 +10,6 @@ public interface VOOrdenPedido {
 	
 	public Long getIdSucursal();
 	
-	public Long getIdProductoCantidad();
-	
 	public Date getFechaEspEntrega();
 	
 	public Date getFechaEntrega();

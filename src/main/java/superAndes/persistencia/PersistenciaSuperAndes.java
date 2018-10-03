@@ -25,6 +25,7 @@ import superAndes.negocio.Empresa;
 import superAndes.negocio.Estante;
 import superAndes.negocio.OrdenPedido;
 import superAndes.negocio.PersonaNatural;
+import superAndes.negocio.Producto;
 
 public class PersistenciaSuperAndes {
 
@@ -263,12 +264,12 @@ public class PersistenciaSuperAndes {
         {
             tx.begin();
             long idBodega = nextval ();
-            long tuplasInsertadas = sqlBodega.adicionarBodega(pm, idBodega,tipoProducto,volumen,0.0,unidadV,peso,0.0,unidadP);
+            long tuplasInsertadas = sqlBodega.adicionarBodega(pm, idBodega,tipoProducto,volumen,0.0,unidadV,peso,0.0,unidadP,0);
             tx.commit();
             
             log.trace ("Inserción de la bodega: " + idBodega + ": " + tuplasInsertadas + " tuplas insertadas");
             
-            return new Bodega (idBodega, tipoProducto,volumen,0.0,unidadV,peso,0.0,unidadP);
+            return new Bodega (idBodega, tipoProducto,volumen,0.0,unidadV,peso,0.0,unidadP,0);
         }
         catch (Exception e)
         {
@@ -315,6 +316,9 @@ public class PersistenciaSuperAndes {
             tx.begin();
             long idCompra = nextval ();
             long tuplasInsertadas = sqlCompra.adicionarCompra(pm, idCompra, idC, idP, idS, cantidad, promocion, precio, fecha);
+            Bodega nuevo = sqlBodega.darBodega(pm, idS, idP);
+            Integer actualizarEstante = sqlEstante.actualizarVenta(pm, idS, idP,cantidad, nuevo.getCantidad());
+            if(actualizarEstante != 0)  sqlBodega.actualizarBodega(pm,actualizarEstante,idC,idS);
             tx.commit();
             
             log.trace ("Inserción de la compra: " + idCompra + ": " + tuplasInsertadas + " tuplas insertadas");
@@ -377,19 +381,19 @@ public class PersistenciaSuperAndes {
         }
 	}
 	
-	public Estante adicionarEstante(String tipoProducto,Double volumen,Double volumen2,String unidadV,Double peso,Double peso2,String unidadP){
+	public Estante adicionarEstante(String tipoProducto,Double volumen,Double volumen2,String unidadV,Double peso,Double peso2,String unidadP,Integer nivel){
 		PersistenceManager pm = pmf.getPersistenceManager();
         Transaction tx=pm.currentTransaction();
         try
         {
             tx.begin();
             long idEstante = nextval ();
-            long tuplasInsertadas = sqlEstante.adicionarEstante(pm, idEstante, tipoProducto, volumen, volumen2, unidadV, peso, peso2, unidadP);
+            long tuplasInsertadas = sqlEstante.adicionarEstante(pm, idEstante, tipoProducto, volumen, volumen2, unidadV, peso, peso2, unidadP,0,nivel);
             tx.commit();
             
             log.trace ("Inserción de la empresa: " + idEstante + ": " + tuplasInsertadas + " tuplas insertadas");
             
-            return new Estante(idEstante, tipoProducto, volumen, volumen2, unidadV, peso, peso2, unidadP);
+            return new Estante(idEstante, tipoProducto, volumen, volumen2, unidadV, peso, peso2, unidadP,0,nivel);
         }
         catch (Exception e)
         {
@@ -428,19 +432,19 @@ public class PersistenciaSuperAndes {
 		return resp;
 	}
 	
-	public OrdenPedido adicionarOrdenPedido(Long idProveedor,Long idSucursal,Long idProducto,Date fechaEsperada, String estado){
+	public OrdenPedido adicionarOrdenPedido(Long idProveedor,Long idSucursal,Date fechaEsperada, String estado){
 		PersistenceManager pm = pmf.getPersistenceManager();
         Transaction tx=pm.currentTransaction();
         try
         {
             tx.begin();
             long idOrden = nextval ();
-            long tuplasInsertadas = sqlOrden.adicionarOrden(pm, idOrden, idProveedor, idSucursal, idProducto, fechaEsperada, estado);
+            long tuplasInsertadas = sqlOrden.adicionarOrden(pm, idOrden, idProveedor, idSucursal, fechaEsperada, estado);
             tx.commit();
             
             log.trace ("Inserción de la empresa: " + idOrden + ": " + tuplasInsertadas + " tuplas insertadas");
             
-            return new OrdenPedido(idOrden, idProveedor, idSucursal, idProducto, fechaEsperada, null, estado);
+            return new OrdenPedido(idOrden, idProveedor, idSucursal, fechaEsperada, null, estado);
         }
         catch (Exception e)
         {
