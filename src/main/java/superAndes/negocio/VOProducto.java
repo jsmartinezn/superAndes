@@ -12,9 +12,9 @@ public interface VOProducto {
 	
 	public String getUnidadDeMedida();
 	
-	public String getVolumen();
+	public Double getVolumen();
 	
-	public String getPeso();
+	public Double getPeso();
 	
 	public String getCodigoDeBarras();
 	

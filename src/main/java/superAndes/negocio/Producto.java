@@ -12,9 +12,9 @@ public class Producto implements VOProducto {
 	
 	private String unidadDeMedida;
 	
-	private String volumen;
+	private Double volumen;
 	
-	private String peso;
+	private Double peso;
 	
 	private String codigoDeBarras;
 	
@@ -26,14 +26,14 @@ public class Producto implements VOProducto {
 		this.nombre = "";
 		this.presentacion = "";
 		this.unidadDeMedida = "";
-		this.volumen = "";
-		this.peso = "";
+		this.volumen = 0.0;
+		this.peso = 0.0;
 		this.codigoDeBarras="";
 		this.categoria = "";
 	}
 	
 	public Producto(Long id,String marca,String nombre,String presentacion,String unidadDeMedida,
-			String volumen,String peso,String codigoBarras,String categoria){
+			Double volumen,Double peso,String codigoBarras,String categoria){
 		this.id = id;
 		this.marca = marca;
 		this.nombre = nombre;
@@ -85,19 +85,19 @@ public class Producto implements VOProducto {
 		this.unidadDeMedida = unidadDeMedida;
 	}
 
-	public String getVolumen() {
+	public Double getVolumen() {
 		return volumen;
 	}
 
-	public void setVolumen(String volumen) {
+	public void setVolumen(Double volumen) {
 		this.volumen = volumen;
 	}
 
-	public String getPeso() {
+	public Double getPeso() {
 		return peso;
 	}
 
-	public void setPeso(String peso) {
+	public void setPeso(Double peso) {
 		this.peso = peso;
 	}
 
