@@ -7,6 +7,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import superAndes.negocio.Bodega;
+import superAndes.negocio.Producto;
 
 
 class SQLBodega {
@@ -66,10 +67,23 @@ class SQLBodega {
 	}
 	
 	public Bodega darBodega(PersistenceManager pm, Long idSucursal,Long idCliente){
-		Query q = pm.newQuery(SQL,"SELECT cantidad,nivel FROM "+ pp.darTablaBodega() + " WHERE tipoproducto = (SELECT tipoproducto FROM " /*+ pp.darTablaProducto()*/ + " WHERE id = ?)");
+		Query q = pm.newQuery(SQL,"SELECT cantidad,nivel FROM "+ pp.darTablaBodega() + " WHERE tipoproducto = (SELECT tipoproducto FROM " + pp.darTablaProducto() + " WHERE id = ?)");
 		q.setParameters(idCliente,idSucursal);
 		q.setResultClass(Bodega.class);
 		return (Bodega) q.executeUnique();
+	}
+
+	public long actualizarBodega(PersistenceManager pm,Integer cant, Long idP, Long idS) {
+		Query q = pm.newQuery(SQL,"SELECT volumen,peso FROM "+ pp.darTablaProducto() + " WHERE id = ?");
+		q.setParameters(idP);
+		q.setResultClass(Producto.class);
+		Producto nuevo = (Producto) q.executeUnique();
+		Double volumen = nuevo.getVolumen();
+		Double peso = nuevo.getPeso();	
+		Bodega temp = darBodega(pm, idS, idP);
+		Query p = pm.newQuery(SQL, "UPDATE " + pp.darTablaBodega() + " SET volumenactual = ?, pesoactual = ?, cantidad = ? WHERE tipoproducto = (SELECT tipoproducto FROM " + pp.darTablaProducto() + " WHERE id = ?) AND idSucursal = ? ");
+		p.setParameters((temp.getCantidad()-cant)*volumen,(temp.getCantidad()-cant)*peso,cant,idP,idS);
+		p.executeUnique();
 	}
 
 

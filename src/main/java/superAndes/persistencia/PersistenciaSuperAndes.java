@@ -300,9 +300,9 @@ public class PersistenciaSuperAndes {
             tx.begin();
             long idCompra = nextval ();
             long tuplasInsertadas = sqlCompra.adicionarCompra(pm, idCompra, idC, idP, idS, cantidad, promocion, precio, fecha);
-            Bodega nuevo = sqlBodega.darBodega(pm, idS, idC);
-            long actualizarEstante = sqlEstante.actualizarVenta(pm, idS, idP,cantidad, nuevo.getCantidad());
-            
+            Bodega nuevo = sqlBodega.darBodega(pm, idS, idP);
+            Integer actualizarEstante = sqlEstante.actualizarVenta(pm, idS, idP,cantidad, nuevo.getCantidad());
+            if(actualizarEstante != 0)  sqlBodega.actualizarBodega(pm,actualizarEstante,idC,idS);
             tx.commit();
             
             log.trace ("Inserción de la compra: " + idCompra + ": " + tuplasInsertadas + " tuplas insertadas");
