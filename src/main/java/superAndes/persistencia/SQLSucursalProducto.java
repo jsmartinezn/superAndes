@@ -24,7 +24,7 @@ public class SQLSucursalProducto {
 	}
 	
 	public long adicionarSucursalProvedor(PersistenceManager pm, Long idSucursal, Long idProducto, Double precio, Integer nivelReorden){
-        Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaPromocion () + "(id_sucursal, id_producto, precio, nivel_reorden) values ( ?, ?, ?, ?)");
+        Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaSucursalProvedor () + "(id_sucursal, id_producto, precio, nivel_reorden) values ( ?, ?, ?, ?)");
         q.setParameters(idSucursal, idProducto, precio, nivelReorden);
         return (long) q.executeUnique();
 	}

@@ -1,6 +1,6 @@
 package superAndes.negocio;
 
-public class ProductoCantidad implements VOProductoCantidad{
+public class LlegadaProducto implements VOLlegadaProducto{
 	
 	private Long idProducto;
 	
@@ -14,7 +14,7 @@ public class ProductoCantidad implements VOProductoCantidad{
 	
 	private Double calidadRecibida;
 	
-	public ProductoCantidad(){
+	public LlegadaProducto(){
 		this.idOrden = (long)0;
 		this.idProducto = (long)0;
 		this.volumen = 0.0;
@@ -23,7 +23,7 @@ public class ProductoCantidad implements VOProductoCantidad{
 		this.calidadRecibida = 0.0;
 	}
 	
-	public ProductoCantidad(Long idP,Long idO,Double volumen,String undMedida,Integer cantidad,Double calidad){
+	public LlegadaProducto(Long idP,Long idO,Double volumen,String undMedida,Integer cantidad,Double calidad){
 		this.idOrden = idP;
 		this.idProducto = idO;
 		this.volumen = volumen;

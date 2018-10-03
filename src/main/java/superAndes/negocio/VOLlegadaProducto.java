@@ -1,6 +1,6 @@
 package superAndes.negocio;
 
-public interface VOProductoCantidad {
+public interface VOLlegadaProducto {
 	
 	public Long getIdOrden();
 	
