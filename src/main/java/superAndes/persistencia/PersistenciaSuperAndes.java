@@ -257,19 +257,18 @@ public class PersistenciaSuperAndes {
 		return resp;
 	}
 	
-	public Bodega adicionarBodega(String tipoProducto,Double volumen,String unidadV,Double peso,String unidadP){
+	public Bodega adicionarBodega(Long idSucursal, String tipoProducto,Double volumen,String unidadV,Double peso,String unidadP){
 		PersistenceManager pm = pmf.getPersistenceManager();
         Transaction tx=pm.currentTransaction();
         try
         {
             tx.begin();
-            long idBodega = nextval ();
-            long tuplasInsertadas = sqlBodega.adicionarBodega(pm, idBodega,tipoProducto,volumen,0.0,unidadV,peso,0.0,unidadP,0);
+            long tuplasInsertadas = sqlBodega.adicionarBodega(pm, idSucursal,tipoProducto,volumen,0.0,unidadV,peso,0.0,unidadP,0);
             tx.commit();
             
-            log.trace ("Inserción de la bodega: " + idBodega + ": " + tuplasInsertadas + " tuplas insertadas");
+            log.trace ("Inserción de la bodega: " + idSucursal + ": " + tuplasInsertadas + " tuplas insertadas");
             
-            return new Bodega (idBodega, tipoProducto,volumen,0.0,unidadV,peso,0.0,unidadP,0);
+            return new Bodega (idSucursal, tipoProducto,volumen,0.0,unidadV,peso,0.0,unidadP,0);
         }
         catch (Exception e)
         {

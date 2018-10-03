@@ -83,7 +83,8 @@ class SQLBodega {
 		Bodega temp = darBodega(pm, idS, idP);
 		Query p = pm.newQuery(SQL, "UPDATE " + pp.darTablaBodega() + " SET volumenactual = ?, pesoactual = ?, cantidad = ? WHERE tipoproducto = (SELECT tipoproducto FROM " + pp.darTablaProducto() + " WHERE id = ?) AND idSucursal = ? ");
 		p.setParameters((temp.getCantidad()-cant)*volumen,(temp.getCantidad()-cant)*peso,cant,idP,idS);
-		p.executeUnique();
+		return (long)p.executeUnique();
+		
 	}
 
 

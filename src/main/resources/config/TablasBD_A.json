@@ -1,0 +1,16 @@
+{
+	"title": "Nombres de las tablas de Parranderos Uniandes para la aplicación A",
+	"unidadPersistencia": "Parranderos",
+	"tablas":
+	[
+		"SuperAndes_sequence",
+		"A_BODEGA",
+		"A_COMPRA",
+		"A_COMPRAPROMOCION",
+		"A_EMPRESA",
+		"A_ESTANTE",
+		"A_LLEGADAPRODUCTO",
+		"A_ORDENPEDIDO"
+		"A_PERSONANATURAL"
+	]
+}

@@ -57,8 +57,8 @@ public class SuperAndes {
 		pp.cerrarUnidadPersistencia ();
 	}
 	
-	public Bodega adicionarBodega(String tipoProducto,Double volumen,String unidadV,Double peso,String unidadP){
-		return pp.adicionarBodega(tipoProducto, volumen, unidadV, peso, unidadP);
+	public Bodega adicionarBodega(Long idSucursal,String tipoProducto,Double volumen,String unidadV,Double peso,String unidadP){
+		return pp.adicionarBodega(idSucursal,tipoProducto, volumen, unidadV, peso, unidadP);
 	}
 	
 	public List<String> indiceDeOcupacionPesoBodega(Long idSucursal){

@@ -19,6 +19,8 @@ public class Producto implements VOProducto {
 	private String codigoDeBarras;
 	
 	private String categoria;
+	
+	private String tipo;
 
 	public Producto(){
 		this.id = (long) 0;
@@ -30,10 +32,11 @@ public class Producto implements VOProducto {
 		this.peso = 0.0;
 		this.codigoDeBarras="";
 		this.categoria = "";
+		this.tipo = "";
 	}
 	
 	public Producto(Long id,String marca,String nombre,String presentacion,String unidadDeMedida,
-			Double volumen,Double peso,String codigoBarras,String categoria){
+			Double volumen,Double peso,String codigoBarras,String categoria,String tipo){
 		this.id = id;
 		this.marca = marca;
 		this.nombre = nombre;
@@ -43,6 +46,7 @@ public class Producto implements VOProducto {
 		this.peso = peso;
 		this.codigoDeBarras = codigoBarras;
 		this.categoria = categoria;
+		this.tipo = tipo;
 	}
 	
 	public Long getId() {
@@ -116,4 +120,14 @@ public class Producto implements VOProducto {
 	public void setCategoria(String categoria) {
 		this.categoria = categoria;
 	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
+
 }
