@@ -3,7 +3,7 @@ package superAndes.persistencia;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-public class SQLProvedor {
+public class SQLProveedor {
 
 	/**
 	 * Cadena que representa el tipo de consulta que se va a realizar en las sentencias de acceso a la base de datos
@@ -19,7 +19,7 @@ public class SQLProvedor {
 	 */
 	private PersistenciaSuperAndes pp;
 	
-	public SQLProvedor(PersistenciaSuperAndes pp){
+	public SQLProveedor(PersistenciaSuperAndes pp){
 		this.pp = pp;
 	}
 	

@@ -23,9 +23,14 @@ import superAndes.negocio.Bodega;
 import superAndes.negocio.Compra;
 import superAndes.negocio.Empresa;
 import superAndes.negocio.Estante;
+import superAndes.negocio.LlegadaProducto;
 import superAndes.negocio.OrdenPedido;
 import superAndes.negocio.PersonaNatural;
 import superAndes.negocio.Producto;
+import superAndes.negocio.ProductoProveedor;
+import superAndes.negocio.Promocion;
+import superAndes.negocio.Proveedor;
+import superAndes.negocio.SucursalProducto;
 
 public class PersistenciaSuperAndes {
 
@@ -85,7 +90,7 @@ public class PersistenciaSuperAndes {
 	
 	private SQLLlegadaProducto sqlLLegadaProducto;
 	
-	private SQLProvedor sqlProvedor;
+	private SQLProveedor sqlProveedor;
 	
 	private SQLSucursal sqlSucursal;
 	
@@ -224,6 +229,13 @@ public class PersistenciaSuperAndes {
 		sqlEstante = new SQLEstante(this);
 		sqlOrden = new SQLOrdenPedido(this);
 		sqlPersona = new SQLPersonaNatural(this);
+		sqlLLegadaProducto = new SQLLlegadaProducto(this);
+		sqlProducto = new SQLProducto(this);
+		sqlProductoProvedor = new SQLProductoProvedor(this);
+		sqlProveedor = new SQLProveedor(this);
+		sqlPromocion = new SQLPromocion(this);
+		sqlSucursal = new SQLSucursal(this);
+		sqlSucursalProducto = new SQLSucursalProducto(this);
 		sqlUtil = new SQLUtil(this);
 	}
 	private List <String> leerNombresTablas (JsonObject tableConfig)
@@ -524,5 +536,197 @@ public class PersistenciaSuperAndes {
             pm.close();
         }
 	}
+	
+	public Producto adicionarProducto(Long codigoB, String nombre, String marca, String presentacion, Double precioUM, String UM,Integer cantdadP,Double volumen, Double peso, String catrgoria){
+		PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+		try
+        {
+            tx.begin();
+            long codigo = nextval ();
+            long tuplasInsertadas = sqlProducto.adicionarProducto(pm, codigoB, nombre, marca, presentacion, precioUM, UM, cantdadP, volumen, peso, catrgoria);
+            tx.commit();
+            
+            log.trace ("Inserción de la empresa: " + codigo + ": " + tuplasInsertadas + " tuplas insertadas");
+            
+            return new Producto(codigoB, marca, nombre, presentacion, precioUM, UM, cantdadP, volumen, peso, catrgoria);
+        }
+        catch (Exception e)
+        {
+        	e.printStackTrace();
+        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+        	return null;
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+	}
+	
+	public LlegadaProducto adicionarLlegadaProducto( Long idProducto, Long idOrden, Double volumen, String uM, Integer cantidadR, Double calidadR){
+		PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+		try
+        {
+            tx.begin();
+            long id = nextval ();
+            long tuplasInsertadas = sqlLLegadaProducto.adicionarLlegadaProducto(pm, idProducto, idOrden, volumen, uM, cantidadR, calidadR);
+            tx.commit();
+            
+            log.trace ("Inserción de la empresa: " + id + ": " + tuplasInsertadas + " tuplas insertadas");
+            
+            return new LlegadaProducto(idProducto, idOrden, volumen, uM, cantidadR, calidadR);
+        }
+        catch (Exception e)
+        {
+        	e.printStackTrace();
+        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+        	return null;
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+	}
+	
+	public ProductoProveedor adicionarProductoProveedor(Long idProducto, Long idProvedor, Double precio, Double indiceCalidad){
+		
+		PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+		try
+        {
+            tx.begin();
+            long id = nextval ();
+            long tuplasInsertadas = sqlProductoProvedor.adicionarProductoProvedor(pm, idProducto, idProvedor, precio, indiceCalidad);
+            tx.commit();
+            
+            log.trace ("Inserción de la empresa: " + id + ": " + tuplasInsertadas + " tuplas insertadas");
+            
+            return new ProductoProveedor(idProducto, idProvedor, precio, indiceCalidad);
+        }
+        catch (Exception e)
+        {
+        	e.printStackTrace();
+        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+        	return null;
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+	}
+	
+	public Promocion adicionarPromocion(Long idSucursal, Long idProducto, Date fechaInicio, Date fechaFin, String condicion){
+		PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+		try
+        {
+            tx.begin();
+            long id = nextval ();
+            long tuplasInsertadas = sqlPromocion.adicionarPromocion(pm, idSucursal, idProducto, fechaInicio, fechaFin, condicion);
+            tx.commit();
+            
+            log.trace ("Inserción de la empresa: " + id + ": " + tuplasInsertadas + " tuplas insertadas");
+            
+            return new Promocion(idSucursal, idProducto, fechaInicio, fechaFin, condicion);
+        }
+        catch (Exception e)
+        {
+        	e.printStackTrace();
+        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+        	return null;
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+	}
+	
+	public Proveedor adicionarProveedor(Long nit, String nombre){
+		PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+		try
+        {
+            tx.begin();
+            long id = nextval ();
+            long tuplasInsertadas = sqlProveedor.adicionarProvedor(pm, nit, nombre);
+            tx.commit();
+            
+            log.trace ("Inserción de la empresa: " + id + ": " + tuplasInsertadas + " tuplas insertadas");
+            
+            return new Proveedor(nit, nombre);
+        }
+        catch (Exception e)
+        {
+        	e.printStackTrace();
+        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+        	return null;
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+	}
+	
+	public SucursalProducto adicionarSucursalProducto( Long idSucursal, Long idProducto, Double precio, Integer nivelReorden){
+		PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+		try
+        {
+            tx.begin();
+            long id = nextval ();
+            long tuplasInsertadas = sqlSucursalProducto.adicionarSucursalProvedor(pm, idSucursal, idProducto, precio, nivelReorden);
+            tx.commit();
+            
+            log.trace ("Inserción de la empresa: " + id + ": " + tuplasInsertadas + " tuplas insertadas");
+            
+            return new SucursalProducto(idSucursal, idProducto, precio, nivelReorden);
+        }
+        catch (Exception e)
+        {
+        	e.printStackTrace();
+        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+        	return null;
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+	}
+	
+	public List<Promocion> darPromocionesMasPopulares(){
+		PersistenceManager pm = pmf.getPersistenceManager();
+		return sqlPromocion.darVeinteMejoresPromociones(pm);
+	}
+	
+	public List<Producto> darProductoPorCondicion(String condicion){
+		PersistenceManager pm = pmf.getPersistenceManager();
+		return sqlProducto.darProductoCondicion(pm, condicion);
+	}
+
 	
 }

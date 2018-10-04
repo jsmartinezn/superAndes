@@ -2,7 +2,6 @@ package superAndes.negocio;
 
 public interface VOProducto {
 	
-	public Long getId();
 	
 	public String getMarca();
 	
@@ -16,10 +15,8 @@ public interface VOProducto {
 	
 	public Double getPeso();
 	
-	public String getCodigoDeBarras();
+	public Long getCodigoDeBarras();
 	
 	public String getCategoria();
-	
-	public String getTipo();
 
 }

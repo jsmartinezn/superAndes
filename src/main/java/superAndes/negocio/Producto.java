@@ -2,7 +2,8 @@ package superAndes.negocio;
 
 public class Producto implements VOProducto {
 	
-	private Long id;
+
+	private Long codigoDeBarras;
 	
 	private String marca;
 	
@@ -10,51 +11,44 @@ public class Producto implements VOProducto {
 	
 	private String presentacion;
 	
+	private Double precioUnidadDeMedida;
+	
 	private String unidadDeMedida;
+	
+	private Integer cantidadPresentacion;
 	
 	private Double volumen;
 	
 	private Double peso;
 	
-	private String codigoDeBarras;
-	
 	private String categoria;
 	
-	private String tipo;
 
 	public Producto(){
-		this.id = (long) 0;
 		this.marca = "";
 		this.nombre = "";
 		this.presentacion = "";
+		this.setPrecioUnidadDeMedida(0.0);
 		this.unidadDeMedida = "";
+		this.cantidadPresentacion = 0;
 		this.volumen = 0.0;
 		this.peso = 0.0;
-		this.codigoDeBarras="";
+		this.codigoDeBarras=(long) 0;
 		this.categoria = "";
-		this.tipo = "";
 	}
 	
-	public Producto(Long id,String marca,String nombre,String presentacion,String unidadDeMedida,
-			Double volumen,Double peso,String codigoBarras,String categoria,String tipo){
-		this.id = id;
+	public Producto(Long codigoBarras,String marca,String nombre,String presentacion, Double precioUnidadDeMedida, String unidadDeMedida, Integer cantidadPresentacion,
+			Double volumen,Double peso,String categoria){
 		this.marca = marca;
 		this.nombre = nombre;
 		this.presentacion = presentacion;
+		this.setPrecioUnidadDeMedida(precioUnidadDeMedida);
 		this.unidadDeMedida = unidadDeMedida;
+		this.cantidadPresentacion = cantidadPresentacion;
 		this.volumen = volumen;
 		this.peso = peso;
 		this.codigoDeBarras = codigoBarras;
 		this.categoria = categoria;
-		this.tipo = tipo;
-	}
-	
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getMarca() {
@@ -105,11 +99,11 @@ public class Producto implements VOProducto {
 		this.peso = peso;
 	}
 
-	public String getCodigoDeBarras() {
+	public Long getCodigoDeBarras() {
 		return codigoDeBarras;
 	}
 
-	public void setCodigoDeBarras(String codigoDeBarras) {
+	public void setCodigoDeBarras(Long codigoDeBarras) {
 		this.codigoDeBarras = codigoDeBarras;
 	}
 
@@ -121,12 +115,21 @@ public class Producto implements VOProducto {
 		this.categoria = categoria;
 	}
 
-	public String getTipo() {
-		return tipo;
+
+	public Double getPrecioUnidadDeMedida() {
+		return precioUnidadDeMedida;
 	}
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setPrecioUnidadDeMedida(Double precioUnidadDeMedida) {
+		this.precioUnidadDeMedida = precioUnidadDeMedida;
+	}
+
+	public Integer getCantidadPresentacion() {
+		return cantidadPresentacion;
+	}
+
+	public void setCantidadPresentacion(Integer cantidadPresentacion) {
+		this.cantidadPresentacion = cantidadPresentacion;
 	}
 
 

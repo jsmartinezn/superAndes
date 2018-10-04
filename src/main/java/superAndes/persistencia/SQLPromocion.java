@@ -1,9 +1,13 @@
 package superAndes.persistencia;
 
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+
+import superAndes.negocio.Promocion;
 
 public class SQLPromocion {
 
@@ -33,5 +37,20 @@ public class SQLPromocion {
         Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaPromocion () + "(id_sucursal, id_producto, fecha_inicio, fecha_fin, condicion) values (?, ?, ?, ?, ?)");
         q.setParameters(idSucursal, idProducto, fechaInicio, fechaFin, condicion);
         return (long) q.executeUnique();
+	}
+	
+	public List<Promocion> darVeinteMejoresPromociones(PersistenceManager pm){
+        String sql = "SELECT idBar, count (*) as numBebidas";
+        sql += " FROM " + pp.darTablaCompraPromocion();
+       	sql	+= " GROUP BY idBar";
+       	sql += " order by numCompras DESC";
+		Query q = pm.newQuery(SQL, sql);
+		q.setResultClass(Promocion.class);
+		LinkedList<Promocion> res = new LinkedList<>();
+		for(int i = 1; i< q.executeList().size(); i++){
+			res.add( (Promocion) q.executeList().get(i));
+		}
+		
+		return res;
 	}
 }

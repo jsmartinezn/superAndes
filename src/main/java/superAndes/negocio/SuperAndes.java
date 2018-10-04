@@ -108,7 +108,54 @@ public class SuperAndes {
 	public OrdenPedido adicionarOrdenPedido(Long idProveedor,Long idSucursal,Date fechaEsperada, String estado){
 		return pp.adicionarOrdenPedido(idProveedor, idSucursal, fechaEsperada, estado);
 	}
-
+	
+	public Producto adicionarProducto(Long codigoB, String nombre, String marca, String presentacion, Double precioUM, String UM,Integer cantdadP,Double volumen, Double peso, String catrgoria)
+	{
+		return pp.adicionarProducto(codigoB, nombre, marca, presentacion, precioUM, UM, cantdadP, volumen, peso, catrgoria);
+	}
+	
+	public LlegadaProducto adicionarLlegadaProducto( Long idProducto, Long idOrden, Double volumen, String uM, Integer cantidadR, Double calidadR)
+	{
+		return pp.adicionarLlegadaProducto(idProducto, idOrden, volumen, uM, cantidadR, calidadR);
+	}
+	
+	public ProductoProveedor adicionarProductoProveedor(Long idProducto, Long idProvedor, Double precio, Double indiceCalidad){
+		return pp.adicionarProductoProveedor(idProducto, idProvedor, precio, indiceCalidad);
+	}
+	
+	public Promocion adicionarPromocion(Long idSucursal, Long idProducto, Date fechaInicio, Date fechaFin, String condicion)
+	{
+		return pp.adicionarPromocion(idSucursal, idProducto, fechaInicio, fechaFin, condicion);
+	}
+	
+	public Proveedor adicionarProveedor(Long nit, String nombre)
+	{
+		return pp.adicionarProveedor(nit, nombre);
+	}
+	
+	public SucursalProducto adicionarSucursalProducto( Long idSucursal, Long idProducto, Double precio, Integer nivelReorden)
+	{
+		return pp.adicionarSucursalProducto(idSucursal, idProducto, precio, nivelReorden);
+	}
+	
+	public List<VOPromocion> darPromocionesMasPopulares()
+	{
+		List<Promocion> temp = pp.darPromocionesMasPopulares();
+		List<VOPromocion> resp = new LinkedList<>();
+		for(Promocion nuevo: temp)
+			resp.add(nuevo);
+		return resp;
+	}
+	
+	public List<VOProducto> darProductoPorCondicion(String condicion)
+	{
+		List<Producto> temp = pp.darProductoPorCondicion(condicion);
+		List<VOProducto> resp = new LinkedList<>();
+		for(Producto nuevo: temp)
+			resp.add(nuevo);
+		return resp;
+	}
+	
 	public long realizarEntrega(Long id,Date fecha,Double calificacion,String estado){
 		return pp.realizarEntrega(id, fecha, calificacion, estado);
 	}
